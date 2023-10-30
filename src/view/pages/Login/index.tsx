@@ -4,7 +4,7 @@ import { Button } from "../../components/Button";
 import { useLoginController } from "./useLoginController";
 
 export function Login() {
-  const { handleSubmit } = useLoginController();
+  const { handleSubmit, register, errors, isPending } = useLoginController();
 
   return (
     <div>
@@ -24,10 +24,10 @@ export function Login() {
       <form
         onSubmit={handleSubmit}
         className="mt-[60px] flex flex-col gap-4">
-        <Input name="email" type="email" placeholder="E-mail" />
-        <Input name="password" type="password" placeholder="Senha" />
+        <Input type="email" placeholder="E-mail" {...register("email")} error={errors.email?.message} />
+        <Input type="password" placeholder="Senha"  {...register("password")} error={errors.password?.message} />
 
-        <Button type="submit" className="mt-2">
+        <Button type="submit" className="mt-2" isLoading={isPending}>
           Entrar
         </Button>
       </form>
