@@ -13,7 +13,7 @@ import { Spinner } from "../../../../components/Spinner";
 import { PlusIcon } from "@radix-ui/react-icons";
 
 export function Accounts() {
-  const { setSliderState, sliderState, windowWidth, areValuesVisible, toggleValuesVisibility, isLoading, accounts, openNewAccountModal } = useAccountsController();
+  const { setSliderState, sliderState, windowWidth, areValuesVisible, toggleValuesVisibility, isLoading, accounts, openNewAccountModal, currentBalance } = useAccountsController();
 
   return (
     <div className="bg-teal-900 rounded-2xl w-full h-full md:p-10 px-4 py-8 flex flex-col">
@@ -27,7 +27,7 @@ export function Accounts() {
           <div className="">
             <span className="tracking-[-0.5px] text-white block">Saldo Total</span>
             <div className="flex items-center gap-2">
-              <strong className={cn("text-2xl tracking-[-1px] text-white", !areValuesVisible && "blur-md")}>{formatCurrency(1000)}</strong>
+              <strong className={cn("text-2xl tracking-[-1px] text-white", !areValuesVisible && "blur-md")}>{formatCurrency(currentBalance)}</strong>
               <button className="w-8 h-8 flex items-center justify-center" onClick={toggleValuesVisibility}>
                 <EyeIcon open={!areValuesVisible} />
               </button>
@@ -71,18 +71,15 @@ export function Accounts() {
                       isEnd={sliderState.isEnd}
                     />
                   </div>
-                  <SwiperSlide>
-                    <AccountCard color="#7950f2" name="Nubank" balance={1023.23} />
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <AccountCard color="#7950f2" name="Nubank" balance={1023.23} />
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <AccountCard color="#7950f2" name="Nubank" balance={1023.23} />
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <AccountCard color="#7950f2" name="Nubank" balance={1023.23} />
-                  </SwiperSlide>
+                  {accounts.map(account => (
+                    <SwiperSlide key={account.id}>
+                      <AccountCard
+                        data={account}
+                      />
+                    </SwiperSlide>
+
+                  ))}
+
                 </Swiper>
               </div>
             )}

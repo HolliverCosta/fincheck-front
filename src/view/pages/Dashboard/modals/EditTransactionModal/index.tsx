@@ -4,20 +4,42 @@ import { Input } from "../../../../components/Input";
 import { InputCurrency } from "../../../../components/InputCurrency";
 import { Modal } from "../../../../components/Modal";
 import { Select } from "../../../../components/Select";
-import { useNewTransactionModalController } from "./useNewTransactionModalController";
+import { useEditTransactionModalController } from "./useEditTransactionModalController";
 import { Button } from "../../../../components/Button";
+import { Transaction } from "../../../../../app/entities/Transaction";
+import { ConfirmDeleteModal } from "../../../../components/ConfirmDeleteModal";
+import { TrashIcon } from "../../../../components/icons/TrashIcon";
 
+interface EditTransactionModalProps {
+  transaction: Transaction | null;
+  open: boolean;
+  onClose(): void;
+}
 
-export function NewTransactionModal() {
-  const { closeNewTransactionModal, isNewTransactionModalOpen, newTransactionType, errors, control, register, handleSubmit, accounts, categories, isPending } = useNewTransactionModalController();
+export function EditTransactionModal({ transaction, open, onClose }: EditTransactionModalProps) {
+  const { errors, control, register, handleSubmit, accounts, categories, isPending, isDeleteModalOpen, handleCloseDeleteModal, handleOpenDeleteModal, handleDeleteTransaction, isLoadingDelete } = useEditTransactionModalController(transaction, onClose);
 
-  const isExpense = newTransactionType === 'EXPENSE';
+  const isExpense = transaction?.type === 'EXPENSE';
+
+  if (isDeleteModalOpen) {
+    return <ConfirmDeleteModal
+      isLoading={isLoadingDelete}
+      title={`Tem certeza que deseja excluir esta ${isExpense ? 'despesa' : 'receita'}?`}
+      onClose={handleCloseDeleteModal}
+      onConfirm={handleDeleteTransaction}
+    />
+  }
 
   return (
     <Modal
-      title={isExpense ? 'Nova Despesa' : 'Nova Receita'}
-      open={isNewTransactionModalOpen}
-      onClose={closeNewTransactionModal}
+      title={isExpense ? 'Editar Despesa' : 'Editar Receita'}
+      open={open}
+      onClose={onClose}
+      rightAction={
+        <button onClick={handleOpenDeleteModal}>
+          <TrashIcon className="w-6 h-6 text-red-900" />
+        </ button>
+      }
     >
       <form onSubmit={handleSubmit}>
         <div>
@@ -95,7 +117,7 @@ export function NewTransactionModal() {
           />
         </div>
         <Button type="submit" className="w-full mt-6" isLoading={isPending}>
-          Criar
+          Salvar
         </Button>
       </form>
     </Modal>
