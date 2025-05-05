@@ -1,8 +1,8 @@
 import { ChevronDownIcon, CrossCircledIcon } from "@radix-ui/react-icons";
-import { cn } from "../../app/utils/cn";
-import { DropdownMenu } from "./DropDownMenu";
-import { ColorIcon } from "./icons/ColorIcon";
 import { useState } from "react";
+import { cn } from "../../app/utils/cn";
+import { DropdownMenu } from "./DropdownMenu";
+import { ColorIcon } from "./icons/ColorIcon";
 
 interface ColorsDropdownProps {
   className?: string;

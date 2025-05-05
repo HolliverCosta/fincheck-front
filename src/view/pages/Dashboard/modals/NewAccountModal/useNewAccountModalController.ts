@@ -1,11 +1,11 @@
-import { z } from "zod";
-import { useDashboard } from "../../components/DashboardContext/useDashboard";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import { z } from "zod";
 import { BankAccountBody, bankAccountService } from "../../../../../app/services/bankAccountsService";
 import { currencyStringToNumber } from "../../../../../app/utils/currencyStringToNumber";
-import toast from "react-hot-toast";
+import { useDashboard } from "../../components/DashboardContext/useDashboard";
 
 const schema = z.object({
   initialBalance: z.string().min(1,'Saldo inicial é obrigatório'),
@@ -40,8 +40,9 @@ export function useNewAccountModalController(){
   const handleSubmit = hookFormHandleSubmit(async (data) => {
     try {
       await mutateAsync({
-      ...data,
-      initialBalance: currencyStringToNumber(data.initialBalance)
+        ...data,
+        initialBalance: currencyStringToNumber(data.initialBalance),
+        id: "",
       });
       queryClient.invalidateQueries({ queryKey: ['bankAccounts']});
       toast.success('Conta cadastrada!')

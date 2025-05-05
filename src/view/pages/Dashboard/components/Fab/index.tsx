@@ -1,5 +1,5 @@
 import { PlusIcon } from "@radix-ui/react-icons";
-import { DropdownMenu } from "../../../../components/DropDownMenu";
+import { DropdownMenu } from "../../../../components/DropdownMenu";
 import { BankAccountIcon } from "../../../../components/icons/BankAccountIcon";
 import { CategoryIcon } from "../../../../components/icons/categories/CategoryIcon";
 import { useDashboard } from "../DashboardContext/useDashboard";

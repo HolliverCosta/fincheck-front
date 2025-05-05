@@ -1,7 +1,7 @@
 import { ExitIcon } from "@radix-ui/react-icons";
 
 import { useAuth } from "../../app/hooks/useAuth";
-import { DropdownMenu } from "./DropDownMenu";
+import { DropdownMenu } from "./DropdownMenu";
 
 
 export function UserMenu() {
